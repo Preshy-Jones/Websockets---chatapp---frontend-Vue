@@ -3,7 +3,7 @@ import { onBeforeMount, ref } from "@vue/runtime-core";
 import { io } from "socket.io-client";
 
 const socket = io("http://localhost:3001");
-const messages = ref([]);
+const messages = ref([{ name: "Preshy Jones", text: "heyoo" }]);
 const messageText = ref("");
 const joined = ref(false);
 const name = ref("");
@@ -50,6 +50,7 @@ const emitTyping = () => {
 
 <template>
   <div class="chat">
+    <h1>{{ joined }}</h1>
     <div v-if="!joined">
       <form @submit.prevent="join">
         <label>What's your name</label>
@@ -58,6 +59,7 @@ const emitTyping = () => {
       </form>
     </div>
     <div v-else>
+      <pre>{{ JSON.stringify(messages, null, 2) }}</pre>
       <div>
         <div v-for="(message, index) in messages" :key="index">
           [{{ message.name }}]: {{ message.text }}
